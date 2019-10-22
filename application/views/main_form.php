@@ -20,7 +20,7 @@
 					</div>
 					
 					<div class="form-group">
-						<input type="email" class="form-control form-control-sm" id="exampleInputEmail" id="exampleInputEmail" placeholder="Email Address">
+						<input type="email" class="form-control form-control-sm" name="exampleInputEmail" id="exampleInputEmail" placeholder="Email Address">
 					</div>
 					<input type="hidden" name="txtsignature" id="txtsignature">
 
@@ -106,7 +106,7 @@ $(document).ready(function() {
 	// rather than window resize events.
 	window.onresize = resizeCanvas;
 	resizeCanvas();
-	
+
 	var clearButton = document.querySelector("[data-action=clear]");
 	var undoButton = document.querySelector("[data-action=undo]");
 
