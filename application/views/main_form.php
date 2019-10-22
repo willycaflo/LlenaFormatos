@@ -22,18 +22,28 @@
 					<div class="form-group">
 						<input type="email" class="form-control form-control-sm" id="exampleInputEmail" id="exampleInputEmail" placeholder="Email Address">
 					</div>
-					
-					<div class="form-group row">
-						<div class="col-sm-6 mb-3 mb-sm-0">
-							<input type="password" class="form-control form-control-sm" name="exampleInputPassword" id="exampleInputPassword" placeholder="Password">
-						</div>
-						<div class="col-sm-6">
-							<input type="password" class="form-control form-control-sm" name="exampleRepeatPassword" id="exampleRepeatPassword" placeholder="Repeat Password">
+					<input type="hidden" name="txtsignature" id="txtsignature">
+
+					<!-- Signature -->
+					Firma
+					<div id="signature">
+						<canvas id="signature-pad" class="signature-pad" width="300px" height="200px"></canvas>
+						<br>
+						<div>
+							<button type="button" class="btn btn-primary btn-sm" data-action="clear">
+								<i class="fa fa-eraser" aria-hidden="true"></i>
+							</button>
+							<button type="button" class="btn btn-primary btn-sm" data-action="undo">
+								<i class="fa fa-undo" aria-hidden="true"></i>
+							</button>
 						</div>
 					</div>
+					<br/>
+					
 					<button type="submit" class="btn btn-primary btn-sm btn-block">Registrar</button>
 				</form>	
 			
+
 			</div>
 		</div>
 	</div>
@@ -47,3 +57,48 @@
 
 <!-- Custom scripts for all pages-->
 <script src="<?= base_url()?>assets/js/sb-admin-2.js"></script>
+
+<!-- Script signature pad-->
+<script src="<?= base_url()?>assets/vendor/signature_pad/signature_pad.js"></script>
+<!-- <script src="<?= base_url()?>assets/vendor/signature_pad/app.js"></script> -->
+
+<style>
+#signature-pad{
+ width: 300px; height: 200px;
+ border: 1px solid gray;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function() {
+ 	//var signaturePad = new SignaturePad(document.getElementById('signature-pad'));
+	var canvas = document.getElementById("signature-pad");
+	var signaturePad = new SignaturePad(canvas, {
+		// It's Necessary to use an opaque color when saving image as JPEG;
+		// this option can be omitted if only saving as PNG or SVG
+		backgroundColor: 'rgb(255, 255, 255)',
+		maxWidth: 1.5,
+		minWidth: 1,
+	});
+
+	var clearButton = document.querySelector("[data-action=clear]");
+	var undoButton = document.querySelector("[data-action=undo]");
+
+	clearButton.addEventListener("click", function (event) {
+  		signaturePad.clear();
+	});
+
+	undoButton.addEventListener("click", function (event) {
+		var data = signaturePad.toData();
+
+		if (data) {
+			data.pop(); // remove the last dot or line
+			signaturePad.fromData(data);
+		}
+	});
+
+	document.getElementById("frm-example").addEventListener('submit', function(event) {
+		document.getElementById("txtsignature").value = signaturePad.toDataURL();
+	});
+
+});
+ </script>
