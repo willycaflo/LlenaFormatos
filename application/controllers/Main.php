@@ -27,5 +27,10 @@ class Main extends CI_Controller {
 	public function store()
 	{
 		var_dump($_POST);
+		$data_uri = $this->input->post('txtsignature');
+		$encoded_image = str_replace('data:image/png;base64,', '', $data_uri);
+    	$encoded_image = str_replace(' ', '+', $encoded_image);
+		$decoded_image = base64_decode($encoded_image);
+		file_put_contents("./uploades_files/signature.png", $decoded_image);
 	}
 }
