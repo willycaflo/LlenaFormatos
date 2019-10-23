@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Settings;
 class Main extends CI_Controller {
 
 	public function __construct()
@@ -84,6 +86,20 @@ class Main extends CI_Controller {
         $nombre_archivo_salida = "./format_templates/sample_permiso.docx";
         // Output the result as a downloadable file (only streaming, no data saved in the server)
         //$tbs->Show(OPENTBS_DOWNLOAD, $nombre_archivo_salida); // Also merges all [onshow] automa
-        $tbs->Show(OPENTBS_FILE, $nombre_archivo_salida);
+		$tbs->Show(OPENTBS_FILE, $nombre_archivo_salida);
+		
+		/**
+		 * Bloque de codigo para realizar la conversion deun Archivo Word a PDF (Se pierde el formato y algunos elementos)
+		 */
+		// Make sure you have `dompdf/dompdf` in your composer dependencies.
+		Settings::setPdfRendererName(Settings::PDF_RENDERER_DOMPDF);
+		// Any writable directory here. It will be ignored.
+		Settings::setPdfRendererPath('.');
+
+		$phpWord = IOFactory::load($nombre_archivo_salida, 'Word2007');
+		$phpWord->save('./format_templates/Ejemplo.pdf', 'PDF');
+
+		Gears\Pdf::convert($nombre_archivo_salida, './format_templates/Otro_ejemplo.pdf');
+		//shell_exec('libreoffice --headless --convert-to pdf $nombre_archivo_salida');
 	}
 }
