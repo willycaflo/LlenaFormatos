@@ -11,7 +11,12 @@
 		"source": "https://github.com/bcit-ci/CodeIgniter"
 	},
 	"require": {
-		"php": ">=5.3.7"
+		"php": ">=5.3.7",
+		"dompdf/dompdf": "^0.8.3",
+		"phpoffice/phpword": "^0.17.0",
+		"zendframework/zend-escaper": "^2.6",
+		"zendframework/zend-stdlib": "^3.2",
+		"gears/pdf": "*"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
@@ -19,5 +24,10 @@
 	"require-dev": {
 		"mikey179/vfsStream": "1.1.*",
 		"phpunit/phpunit": "4.* || 5.*"
+	},
+	"scripts":
+	{
+		"post-install-cmd": ["PhantomInstaller\\Installer::installPhantomJS"],
+		"post-update-cmd": ["PhantomInstaller\\Installer::installPhantomJS"]
 	}
 }
